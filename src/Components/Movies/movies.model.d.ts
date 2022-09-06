@@ -8,3 +8,9 @@ export interface landingPageDTO {
     inTheaters?: movieDTO[]
     upComingReleases?: movieDTO[]
 }
+
+
+export interface movieListProps {
+    movieStatus?: string
+    movies?: movieDTO[]
+}
