@@ -1,19 +1,12 @@
-import React from 'react'
-import Button from '../../Utils/Button'
-import {useNavigate} from 'react-router-dom'
+import GenreForm from './GenreForm'
 const CreateGenre = () => {
-
-  const navigate = useNavigate()
-
-  const saveGenre = () => {
-    // Save genre in database
-
-    navigate('/Genres')
-  }
   return (
     <>
         <h3>Create Genre</h3>
-       <Button onClick={saveGenre}>Save Changes</Button>
+        <GenreForm model={{name: ''}} onSubmit = {async value => {
+          await new Promise(r => setTimeout(r, 1))
+          console.log(value)
+        }} />
     </>
   )
 }

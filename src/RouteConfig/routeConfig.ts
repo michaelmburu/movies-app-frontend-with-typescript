@@ -21,8 +21,8 @@ const routes = [
 
   //Actors
   {path: '/actors', element: Actors},
-  {path: '/actor/create', element: CreateActor},
-  {path: '/actor/edit/:id', element: EditActor},
+  {path: '/actors/create', element: CreateActor},
+  {path: '/actors/edit/:id', element: EditActor},
 
   //MovieTheaters
   {path: '/movietheaters', element: MovieTheaters},

@@ -2,9 +2,12 @@ import './App.css';
 import Menu from './Components/Menu/Menu';
 import {BrowserRouter, Routes, Route} from  'react-router-dom'
 import routes from './RouteConfig/routeConfig'
-function App() {
+import configureValidations from './Forms/FormValidation'
 
-  
+// Configure Yup validations
+configureValidations()
+
+function App() {
 
   return (
     <BrowserRouter>
