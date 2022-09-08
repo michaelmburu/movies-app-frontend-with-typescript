@@ -79,7 +79,7 @@ interface ImageFieldProps {
 }
 
 ImageField.defaultProps = {
-    imageUrl: ''
+    imageUrl: '' 
 }
 
 export default ImageField
