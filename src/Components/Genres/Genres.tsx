@@ -8,7 +8,7 @@ const Genres = () => {
     <>
        <IndexEntity<GenreDTO> 
         url={urlGenres}
-        createURL="/genres/create"
+        createUrl="/genres/create"
         title="Genres"
         entityName='Genre'
        >

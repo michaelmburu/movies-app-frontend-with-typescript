@@ -1,87 +1,86 @@
+import { ReactElement, useEffect, useState } from "react";
 import axios, { AxiosResponse } from 'axios';
-import React, { useEffect, useState } from 'react'
-import { ReactElement } from 'react-markdown/lib/react-markdown';
 import { Link } from 'react-router-dom';
 import Button from './Button';
-import GenericList from './GenericList';
-import Pagination from './Pagination';
 import RecordsPerPageSelect from './RecordsPerPageSelect';
+import Pagination from './Pagination';
+import GenericList from './GenericList';
 
-function IndexEntity<T>(props: IndexEntityProps<T>) {
+export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
-  const [entities, setEntities] = useState<T[]>()
-  const [totalAmountOfPages, setTotalAmountOfPages] = useState(0)
-  const [recordsPerPage, setRecordsPerPage] = useState(10)
-  const [page, setPage] = useState(1);
+    const [entities, setEntities] = useState<T[]>();
+    const [totalAmountOfPages, setTotalAmountOfPages] = useState(0);
+    const [recordsPerPage, setRecordsPerPage] = useState(5);
+    const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const loadData = () => {
-    axios.get(props.url, {
-      params:{page, recordsPerPage}
-     })
-    .then((response: AxiosResponse<T[]>) => {
-      const totalAmountOfRecords = parseInt(response.headers['totalamountofrecords'], 10)
-      let total = Math.ceil(totalAmountOfRecords / recordsPerPage)
-      setTotalAmountOfPages(total)
-      setEntities(response.data)
-    })
-  }
-  const deleteEntity = async (id: number) => {
-    try {
-      let del = window.confirm("Are you sure you want to delete?")
-      if(del){
-        await axios.delete(`${props.url}/${id}`)
+    useEffect(() => {
         loadData();
-      }
-      return
-    }catch(error:any){
-      console.error(error.response.data)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, recordsPerPage]);
+
+    function loadData() {
+        axios.get(props.url, {
+            params: { page, recordsPerPage }
+        })
+            .then((response: AxiosResponse<T[]>) => {
+                const totalAmountOfRecords =
+
+                    parseInt(response.headers['totalamountofrecords'], 10);
+                setTotalAmountOfPages(Math.ceil(totalAmountOfRecords / recordsPerPage));
+                setEntities(response.data);
+            })
     }
-  }
 
-  const buttons = (editUrl: string, id: number) => {
-    return (
-      <>
-        <Link className='btn btn-primary' to={editUrl}>Edit</Link>
-        <Button className='btn btn-danger' onClick={() => deleteEntity(id)}>
-          Delete
-        </Button>
+    async function deleteEntity(id: number) {
+        try {
+            await axios.delete(`${props.url}/${id}`);
+            loadData();
+        }
+        catch (error) {
+            if (error && error) {
+                console.error(error);
+            }
+        }
+    }
+
+    const buttons = (editUrl: string, id: number) => <>
+        <Link className="btn btn-success"
+            to={editUrl}>Edit</Link>
+
+        <Button
+            onClick={() => () => deleteEntity(id)}
+            className="btn btn-danger">Delete</Button>
     </>
+
+    return (
+        <>
+            <h3>{props.title}</h3>
+            <Link className="btn btn-primary" 
+            to={props.createUrl}>Create {props.entityName}</Link>
+
+            <RecordsPerPageSelect onChange={amountOfRecords => {
+                setPage(1);
+                setRecordsPerPage(amountOfRecords);
+            }} />
+
+            <Pagination currentPage={page} totalAmountOfPages={totalAmountOfPages}
+                onChange={newPage => setPage(newPage)}
+            />
+
+            <GenericList list={entities}>
+                <table className="table table-striped">
+                    {props.children(entities!, buttons)}
+                </table>
+            </GenericList>
+        </>
     )
-  }
-
-  return (
-    <div>
-      <h3>{props.title}</h3>
-       <Link className="btn btn-success" to={props.createUrl}>Create {props.entityName}</Link>
-
-      <RecordsPerPageSelect onChange={amountOfRecords => {
-        setPage(1)
-        setRecordsPerPage(amountOfRecords);
-      }} />
-       <Pagination currentPage={page} totalAmountOfPages={totalAmountOfPages} onChange={(newPage) => {
-        console.log('Changed', newPage)
-        setPage(newPage)
-        }} />
-
-        <GenericList list={entities}>
-          <table className='table table-borderless'>
-            {props.children(entities!, buttons)}
-          </table>
-       </GenericList>
-    </div>
-  )
 }
 
-interface IndexEntityProps<T> {
-  url: string
-  title: string
-  createUrl: string
-  entityName: string
-  children(entities: T[], buttons: (editUrl: string, id: number) => ReactElement): ReactElement
+interface indexEntityProps<T> {
+    url: string;
+    createUrl: string;
+    title: string;
+    entityName: string;
+    children(entities: T[],
+        buttons: (editUrl: string, id: number) => ReactElement): ReactElement;
 }
-
-export default IndexEntity
