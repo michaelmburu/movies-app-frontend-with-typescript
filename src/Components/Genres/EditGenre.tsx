@@ -7,7 +7,7 @@ const EditGenre = () => {
   return (
     <>
        <EditEntity<GenreCreationDTO, GenreDTO>
-          Url={urlGenres} entityName="Genres" indexUrl='/genres'
+          url={urlGenres} entityName="Genres" indexUrl='/genres'
         >
         {(entity, edit) => 
           <GenreForm model={entity} onSubmit = { async value =>{

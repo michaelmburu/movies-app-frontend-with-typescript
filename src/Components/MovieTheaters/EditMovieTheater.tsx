@@ -1,17 +1,20 @@
 import React from 'react'
+import { urlMovieTheaters } from '../../Endpoints'
+import EditEntity from '../../Utils/EditEntity'
+import { MovieTheaterCreationDTO, MovieTheaterDTO } from './MovieTheater.model'
 import MovieTheaterForm from './MovieTheaterForm'
 
 const EditMovieTheater = () => {
   return (
-    <div>
-       <MovieTheaterForm
-          model={{name: 'IMax CBD Theater', 
-          latitude: -1.2933164711537486, 
-          longitude: 36.81383373696443}} 
-          onSubmit={values => console.log(values)}
-        />
-    </div>
-   
+    <EditEntity<MovieTheaterCreationDTO, MovieTheaterDTO>
+        url={urlMovieTheaters}
+        indexUrl="/movietheaters"
+        entityName='Movie Theater'
+      >
+        {(entity, edit) => 
+          <MovieTheaterForm model={entity} onSubmit={async values => await edit(values)} />
+        }
+    </EditEntity>
   )
 }
 

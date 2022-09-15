@@ -12,7 +12,7 @@ export default function EditEntity<TCreation, TRead>(props: EditEntityProps<TCre
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios.get(`${props.Url}/${id}`)
+    axios.get(`${props.url}/${id}`)
           .then((response: AxiosResponse<TRead>) => {
             setEntity(props.transform(response.data))
           })
@@ -21,7 +21,7 @@ export default function EditEntity<TCreation, TRead>(props: EditEntityProps<TCre
 
   const edit = async (entityToEdit: TCreation) => {
     try{
-      await axios.put(`${props.Url}/${id}`, entityToEdit)
+      await axios.put(`${props.url}/${id}`, entityToEdit)
       navigate(props.indexUrl)
     } catch(error: any){
       if(error && error.response)
@@ -41,7 +41,7 @@ export default function EditEntity<TCreation, TRead>(props: EditEntityProps<TCre
 }
 
 interface EditEntityProps<TCreation, TRead> {
-  Url: string
+  url: string
   entityName: string
   indexUrl: string
   children(entity: TCreation, edit:  (entity: TCreation) => void): ReactElement

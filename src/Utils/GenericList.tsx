@@ -10,14 +10,14 @@ const GenericList = (props: GenericListProps) => {
         return props.loadingUI
     }
     // Show default UI if generic is not passed
-    return <Loading />
+    return   <Loading />
     //If list is not passed, check if there empty list isnpassed
   } else if(props.list.length === 0) {
     if(props.emptyListUI) {
         return props.emptyListUI
     }
     // Show none if both lists are not passed
-    return <>There are no elements to display</>
+    return  <>There are no movie theaters to display</>
   } else {
     // Show list passed
     return props.children

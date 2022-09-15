@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CoordinatesDTO from './CoordinatesDTO.model'
-import {MapContainer, TileLayer, useMapEvent, Marker} from 'react-leaflet'
+import {MapContainer, TileLayer, useMapEvent, Marker, useMap} from 'react-leaflet'
 import L from 'leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png'
 import iconShadow from 'leaflet/dist/images/marker-shadow.png'
 import 'leaflet/dist/leaflet.css'
+import RecenterMap from './RecenterMap'
 
 
 let defaultIcon = L.icon({
@@ -20,16 +21,20 @@ const MapClick = (props: MapClickProps) => {
     return null
 }
 
+
+
 L.Marker.prototype.options.icon = defaultIcon
 
 const Map = (props: MapProps) => {
+    
     const [coordinates, setCordinates] = useState<CoordinatesDTO[]>(props.coordinates)
-  return (
-    <MapContainer
-        center={[-1.2932228341522582, 36.81549833370792]}
-        zoom={16}
-        style={{height: props.height}}
-    >
+
+    return (
+        <MapContainer
+            center={[-1.2932228341522582, 36.81549833370792]}
+            zoom={16}
+            style={{height: props.height}}
+        >
         <TileLayer 
             attribution='Movies App'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -39,10 +44,13 @@ const Map = (props: MapProps) => {
             props.handleMapClick(coordinates)
         }} />
         {coordinates.map((coordinate, index) => 
-            <Marker 
+            <>
+             <Marker 
                 key={index}
                 position={[coordinate.lat, coordinate.lng]} 
             />
+            <RecenterMap key={index} lat={coordinate.lat} lng={coordinate.lng} />
+            </>       
         )}
     </MapContainer>
   )
