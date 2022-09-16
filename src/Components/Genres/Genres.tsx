@@ -26,7 +26,7 @@ const Genres = () => {
                   <td>
                     {genre.name}
                   </td>
-                  <td>
+                   <td>
                     {buttons(`genres/edit/${genre.id}`, genre.id)}
                   </td>
                 </tr>

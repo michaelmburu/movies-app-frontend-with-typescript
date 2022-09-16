@@ -12,7 +12,7 @@ import MultipleSelector from '../../Forms/MultipleSelector'
 import { MultipleSelectorModel } from '../../Forms/MultipleSelectorModel'
 import { GenreDTO } from '../Genres/genres.model'
 import { MovieTheaterDTO } from '../MovieTheaters/MovieTheater.model'
-import TypeAheadActors from '../../Forms/TypeAheadActors'
+import TypeAheadActors from '../../Forms/AsyncTypeAheadActors'
 import { ActorMovieDTO } from '../Actors/actor.model'
 const MovieForm = (props: MovieFormProps) => {
 
@@ -94,7 +94,7 @@ const MovieForm = (props: MovieFormProps) => {
                       />
 
                       <Button disabled={formikProps.isSubmitting} type='submit'>Save Changes</Button>
-                      <Link className='btn btn-secondary' to='/movies'>Cancel</Link>
+                      <Link className='btn btn-secondary' to='/movies/create'>Cancel</Link>
               </Form>
             )}
           </Formik>
