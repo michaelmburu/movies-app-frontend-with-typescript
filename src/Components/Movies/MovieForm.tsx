@@ -14,6 +14,7 @@ import { GenreDTO } from '../Genres/genres.model'
 import { MovieTheaterDTO } from '../MovieTheaters/MovieTheater.model'
 import TypeAheadActors from '../../Forms/AsyncTypeAheadActors'
 import { ActorMovieDTO } from '../Actors/actor.model'
+import MarkdownField from '../../Forms/MarkdownField'
 const MovieForm = (props: MovieFormProps) => {
 
   
@@ -39,7 +40,7 @@ const MovieForm = (props: MovieFormProps) => {
               initialValues={props.model}
               onSubmit={(values, actions) => {
                 values.genresIds = selectedGenres.map(item => item.key)
-                values.movieTheaterIds = selectedMovieTheaters.map(item => item.key)
+                values.movieTheatersIds = selectedMovieTheaters.map(item => item.key)
                 values.actors = selectedActors
                 props.onSubmit(values, actions)
               }}
@@ -62,6 +63,8 @@ const MovieForm = (props: MovieFormProps) => {
                         setNoneSelectedGenres(noneselected)
                       }}
                       />
+
+                      <MarkdownField displayName='Summary' field='summary' />
 
                       <MultipleSelector displayName='Movie Theaters' noneSelected={noneSelectedMovieTheaters} selected={selectedMovieTheaters} 
                       onChange={(selected, noneselected) => {
@@ -94,7 +97,7 @@ const MovieForm = (props: MovieFormProps) => {
                       />
 
                       <Button disabled={formikProps.isSubmitting} type='submit'>Save Changes</Button>
-                      <Link className='btn btn-secondary' to='/movies/create'>Cancel</Link>
+                      <Link className='btn btn-secondary' to='/'>Cancel</Link>
               </Form>
             )}
           </Formik>

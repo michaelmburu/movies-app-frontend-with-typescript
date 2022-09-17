@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import css from './IndividualMovie.module.css'
 import { movieDTO } from './movies.model'
 
@@ -9,11 +10,11 @@ const IndividualMovie = (props: movieDTO) => {
 
   return (
     <div className={css.div}>
-        <a href={buildLink}>
+        <Link to={buildLink}>
           <img alt={props.title} src={props.poster} />
-        </a>
+        </Link>
         <p>
-          <a href={buildLink}>{props.title}</a>
+          <Link to={buildLink}>{props.title}</Link>
         </p>
     </div>
   )

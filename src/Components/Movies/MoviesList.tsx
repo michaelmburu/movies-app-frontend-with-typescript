@@ -6,9 +6,11 @@ import {movieListProps} from '../Movies/movies.model'
 
 const MoviesList = (props: movieListProps) => {
   return (
+    <>
+     <h3>{props.movieStatus}</h3>
     <GenericList list={props.movies}>
       <>
-      <h3>{props.movieStatus}</h3>
+      
       <div className={css.div}>
         {props.movies?.map((movie) => <IndividualMovie {...movie} key={movie.id} />
        ) }       
@@ -16,6 +18,8 @@ const MoviesList = (props: movieListProps) => {
       </>
     
     </GenericList>
+    </>
+   
 
   )
 }

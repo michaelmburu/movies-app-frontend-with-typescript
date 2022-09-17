@@ -1,36 +1,67 @@
-import React from 'react'
-import { ActorMovieDTO } from '../Actors/actor.model'
-import { GenreDTO } from '../Genres/genres.model'
-import { MovieTheaterDTO } from '../MovieTheaters/MovieTheater.model'
+import axios, { AxiosResponse } from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { urlMovies } from '../../Endpoints'
+import { convertMovieToFormData } from '../../Forms/FormDataConverter'
+import DisplayErrors from '../../Utils/DisplayErrors'
+import Loading from '../../Utils/Loading'
 import MovieForm from './MovieForm'
+import { movieCreationDTO, MoviePutGetDTO } from './movies.model'
 
 const EditMovie = () => {
 
-  const noneselectedGenres: GenreDTO[] = [{id: 2, name: 'Scifi'}]
-  const selectedGenres: GenreDTO[] = [{id: 1, name: 'Horror'}]
+  const {id} = useParams()
+  const navigate = useNavigate()
 
-  const selectedMovieTheaters: MovieTheaterDTO[] = [{id: 2, name: 'IMax'}]
+  const [movie, setMovie] = useState<movieCreationDTO>()
+  const [moviePutGet, setMoviePutGet] = useState<MoviePutGetDTO>()
+  const [errors, setErrors] = useState<string[]>([])
 
-  const noneselectedMovieTheaters: MovieTheaterDTO[] = [{id: 1, name: 'Kenya Cinema'}]
+  useEffect(() => {
+    console.log(id)
+    axios.get(`${urlMovies}/putget/${id}`)
+          .then((response: AxiosResponse<MoviePutGetDTO>) => {
+              const model: movieCreationDTO = {
+                title: response.data.movie.title,
+                inTheaters: response.data.movie.inTheaters,
+                trailer: response.data.movie.trailer,
+                posterUrl: response.data.movie.poster,
+                summary: response.data.movie.summary,
+                releaseDate: new Date(response.data.movie.releaseDate)
+              }
 
-  const selectedActors: ActorMovieDTO[] = [
-    {
-      name: "Tom Cruise", id: 1,  character: 'Ethan', picture: 'https://upload.wikimedia.org/wikipedia/commons/d/d6/Issa_Rae_%28cropped%29.jpg'
+              setMovie(model)
+              setMoviePutGet(response.data)
+          })
+  }, [id])
+
+  const edit = async (movieToEdit: movieCreationDTO) => {
+    try{
+      const formData = convertMovieToFormData(movieToEdit)
+      await axios({
+        method: 'put',
+        url: `${urlMovies}/${id}`,
+        data: formData,
+        headers: {'Content-Type': "mulitpart/form-data"}
+      })
+      navigate(`/movie/${id}`)
+    } catch(error: any){
+      console.log(error)
+      //setErrors(error.response.data)
     }
-  ]
-  
+  }
   return (
     <>
         <h3>EditMovie</h3>
-        <MovieForm model={{title: 'Topgun', inTheaters: true, trailer: 'url', releaseDate: new Date('2022-07-09')}} onSubmit={values => console.log(values)} 
-        selectedGenres={selectedGenres}
-        noneselectedGenres = {noneselectedGenres}
+        <DisplayErrors errors={errors}/>
+       {movie && moviePutGet ?  <MovieForm model={movie} onSubmit={async values => await edit(values)} 
+        selectedGenres={moviePutGet.noneSelectedGenres}
+        noneselectedGenres = {moviePutGet.noneSelectedGenres}
 
-        noneselectedMovieTheaters={noneselectedMovieTheaters}
-        selectedMovieTheaters={selectedMovieTheaters}
-
-        selectedActors={selectedActors}
-        />
+        noneselectedMovieTheaters={moviePutGet.noneSelectedMovieTheaters}
+        selectedMovieTheaters={moviePutGet.selectedMovieTheaters}
+        selectedActors={moviePutGet.actors}
+        /> : <Loading />}
     </>
   )
 }

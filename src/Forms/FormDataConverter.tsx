@@ -1,6 +1,7 @@
 import { ActorCreationDTO } from "../Components/Actors/actor.model";
+import { movieCreationDTO } from "../Components/Movies/movies.model";
 
-const convertActorToFormData = (actor: ActorCreationDTO): FormData => {
+export const convertActorToFormData = (actor: ActorCreationDTO): FormData => {
     const formData = new FormData()
 
     formData.append('name', actor.name)
@@ -22,6 +23,39 @@ const convertActorToFormData = (actor: ActorCreationDTO): FormData => {
     return formData
 }
 
+export const convertMovieToFormData = (movie: movieCreationDTO) => {
+    const formData = new FormData()
+
+    formData.append('title', movie.title)
+
+    if(movie.summary)
+    {
+        formData.append('summary', movie.summary)
+    }
+
+    formData.append('trailer', movie.trailer)
+    
+    formData.append('inTheaters', String(movie.inTheaters))
+
+    if(movie.releaseDate)
+    {
+        formData.append('releaseDate', formatDate(movie.releaseDate))
+    }
+
+    if(movie.poster)
+    {
+        formData.append('poster', movie.poster);
+    }
+
+    formData.append('genresIds', JSON.stringify(movie.genresIds))
+
+    formData.append('movieTheatersIds', JSON.stringify(movie.movieTheatersIds))
+
+    formData.append('actors', JSON.stringify(movie.actors))
+    
+    return formData;
+}
+
 const formatDate = (date: Date) => {
     date = new Date(date)
     const format = new Intl.DateTimeFormat("en", 
@@ -37,5 +71,3 @@ const formatDate = (date: Date) => {
     ] = format.formatToParts(date)
     return `${year}-${month}-${day}`
 }
-
-export default convertActorToFormData

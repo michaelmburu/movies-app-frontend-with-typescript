@@ -17,7 +17,7 @@ const GenericList = (props: GenericListProps) => {
         return props.emptyListUI
     }
     // Show none if both lists are not passed
-    return  <>There are no movie theaters to display</>
+    return  <>There are no elements to display</>
   } else {
     // Show list passed
     return props.children
