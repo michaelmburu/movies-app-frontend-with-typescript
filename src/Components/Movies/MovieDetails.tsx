@@ -68,7 +68,7 @@ const MovieDetails = () => {
           <div>
             <h2>{movie.title} ({movie.releaseDate.getFullYear()})</h2>
             {movie.genres?.map(genre => 
-              <Link key={genre.id} style={{marginRight: '5px'}} className="btn btn-primary btn-sm rounded-pill" to={`/moviies/filter?genreId=${genre.id}`}>{genre.name}</Link>
+              <Link key={genre.id} style={{marginRight: '5px'}} className="btn btn-primary btn-sm rounded-pill" to={`/movies/filter?genreId=${genre.id}`}>{genre.name}</Link>
               )} | {movie.releaseDate.toDateString()}
 
             <div style={{display: 'flex', marginTop: '1rem'}}>

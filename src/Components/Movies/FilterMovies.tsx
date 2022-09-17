@@ -6,6 +6,8 @@ import axios, { AxiosResponse } from 'axios'
 import { urlGenres, urlMovies } from '../../Endpoints'
 import { movieDTO } from './movies.model'
 import MoviesList from './MoviesList'
+import { useLocation, useNavigate } from 'react-router-dom'
+import Pagination from '../../Utils/Pagination'
 
 const FilterMovies = () => {
 
@@ -18,9 +20,43 @@ const FilterMovies = () => {
     recordsPerPage: 10
   }
 
-
+  const navigate = useNavigate()
   const [genres, setGenres] = useState<GenreDTO[]>()
   const [movies, setMovies] = useState<movieDTO[]>()
+  const [totalAmountOfPages, setTotalAmountOfPages] = useState(0)
+
+  const query = new URLSearchParams(useLocation().search)
+
+  useEffect(() => {
+
+    if(query.get('title'))
+    {
+      initialValues.title = query.get('title')!
+    }
+
+    if(query.get('genreId'))
+    {
+      initialValues.genreId = parseInt(query.get('genreId')!, 10)
+    }
+
+    if(query.get('page'))
+    {
+      initialValues.page = parseInt(query.get('page')!, 10)
+    }
+
+    if(query.get('upcomingReleases'))
+    {
+      initialValues.upcomingReleases = true
+    }
+
+    if(query.get('inTheaters'))
+    {
+      initialValues.inTheaters = true
+    }
+
+    searchMovies(initialValues)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     axios.get(`${urlGenres}/all`)
@@ -30,16 +66,41 @@ const FilterMovies = () => {
   }, [])
 
   const searchMovies = (values: FilterMoviesForm) => {
+    modifyUrl(values)
     axios.get(`${urlMovies}/filter`, {params: values})
           .then((response: AxiosResponse<movieDTO[]>) => {
+            const records  = parseInt(response.headers['totalamountofrecords'], 10)
+            setTotalAmountOfPages(Math.ceil( records / values.recordsPerPage))
             setMovies(response.data)
           })
   }
 
-  useEffect(() => {
-    searchMovies(initialValues)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const modifyUrl = (values: FilterMoviesForm) => {
+    const queryStrings: string[] = []
+
+    if(values.title)
+    {
+      queryStrings.push(`title=${values.title}`)
+    }
+
+    if(values.genreId !== 0)
+    {
+      queryStrings.push(`genreId=${values.genreId}`)
+    }
+
+    if(values.upcomingReleases)
+    {
+      queryStrings.push(`upcomingReleases=${values.upcomingReleases}`)
+    }
+
+    if(values.inTheaters)
+    {
+      queryStrings.push(`inTheaters=${values.inTheaters}`)
+    }
+    
+    queryStrings.push(`page=${values.page}`)
+    navigate(`/movies/filter?${queryStrings.join('&')}`)
+  }
 
 
   return (
@@ -103,6 +164,10 @@ const FilterMovies = () => {
                     </div>
                     </Form>
                     <MoviesList movies={movies} />
+                    <Pagination totalAmountOfPages={totalAmountOfPages} currentPage={formikProps.values.page} onChange={newPage => {
+                      formikProps.values.page = newPage
+                      searchMovies(formikProps.values)
+                    }} />
           </>
          )}
             </Formik>
