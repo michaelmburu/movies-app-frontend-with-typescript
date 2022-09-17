@@ -46,8 +46,7 @@ const EditMovie = () => {
       })
       navigate(`/movie/${id}`)
     } catch(error: any){
-      console.log(error)
-      //setErrors(error.response.data)
+      setErrors(error.response.data)
     }
   }
   return (
