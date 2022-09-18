@@ -1,5 +1,6 @@
 import React from 'react'
 import {NavLink} from  'react-router-dom'
+import Authorized from '../Auth/Authorized'
 
 const Menu = () => {
     return (
@@ -8,26 +9,35 @@ const Menu = () => {
             <NavLink to="/" className="navbar-brand">React Movies</NavLink>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li className="nav-item">
+                            <NavLink to="/movies/filter" className="nav-link">Filter Movies</NavLink>
+                        </li>
+
+                        <Authorized 
+                            role='admin'
+                            authorized={
+                                <>
+                                    <li className="nav-item">
+                                        <NavLink to="/genres" className="nav-link">Genres</NavLink>
+                                    </li>
+
+                                    <li className="nav-item">
+                                        <NavLink to="/actors" className="nav-link">Actors</NavLink>
+                                    </li>
+
+                                    <li className="nav-item">
+                                        <NavLink to="/movietheaters" className="nav-link">Movie Theaters</NavLink>
+                                    </li>
+
+                                    <li className="nav-item">
+                                        <NavLink to="/movies/create" className="nav-link">Create Movie</NavLink>
+                                    </li>
+                                
+                                </>
+                            }
+                        />
                         
-                        <li className="nav-item">
-                            <NavLink to="/genres" className="nav-link">Genres</NavLink>
-                        </li>
-
-                        <li className="nav-item">
-                            <NavLink to="/movies/filter" className="nav-link">Filter</NavLink>
-                        </li>
-
-                        <li className="nav-item">
-                            <NavLink to="/actors" className="nav-link">Actors</NavLink>
-                        </li>
-
-                        <li className="nav-item">
-                            <NavLink to="/movietheaters" className="nav-link">Movie Theaters</NavLink>
-                        </li>
-
-                        <li className="nav-item">
-                            <NavLink to="/movies/create" className="nav-link">Create Movie</NavLink>
-                        </li>
+                       
                     </ul>
             </div>
         </div>

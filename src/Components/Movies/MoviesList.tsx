@@ -7,7 +7,6 @@ import {movieListProps} from '../Movies/movies.model'
 const MoviesList = (props: movieListProps) => {
   return (
     <>
-     <h3>{props.movieStatus}</h3>
     <GenericList list={props.movies}>
       <>
       
