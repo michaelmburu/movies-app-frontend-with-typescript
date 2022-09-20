@@ -4,7 +4,7 @@ import AuthenticationContext from './AuthenticationContext'
 
 const Authorized = (props: AuthorizedProps) => {
 
-  const [isAuthorized, setIsAuthorized] = useState(true)
+  const [isAuthorized, setIsAuthorized] = useState(false)
   const {claims} = useContext(AuthenticationContext)
 
   useEffect(() => {

@@ -25,11 +25,6 @@ const HomeLayout = () => {
     <AlertContext.Provider value={() => {
       loadData()
     }}>
-        <Authorized
-          authorized={<>You are authorized</>}
-          notAuthorized={<>You are not authorized</>}
-         
-        />
         <h3>In Theaters</h3>
         <MoviesList movieStatus='In Theatres' movies={movies.inTheaters} />
 

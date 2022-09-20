@@ -16,28 +16,28 @@ import NotFound from "../Components/NotFound/NotFound"
 
 const routes = [
   //Genres 
-  {path: '/genres', element: Genres},
-  {path: '/genres/create', element: CreateGenre},
-  {path: '/genres/edit/:id', element: EditGenre}, 
+  {path: '/genres', element: Genres, exact: true, isAdmin: true},
+  {path: '/genres/create', element: CreateGenre, isAdmin: true},
+  {path: '/genres/edit/:id', element: EditGenre, isAdmin: true}, 
 
   //Actors
-  {path: '/actors', element: Actors},
-  {path: '/actors/create', element: CreateActor},
-  {path: '/actors/edit/:id', element: EditActor},
+  {path: '/actors', element: Actors, exact: true, isAdmin: true},
+  {path: '/actors/create', element: CreateActor, isAdmin: true},
+  {path: '/actors/edit/:id', element: EditActor, isAdmin: true},
 
   //MovieTheaters
-  {path: '/movietheaters', element: MovieTheaters},
-  {path: '/movietheaters/create', element: CreateMovieTheater},
-  {path: '/movietheaters/edit/:id', element: EditMovieTheater},
+  {path: '/movietheaters', element: MovieTheaters, exact: true, isAdmin: true},
+  {path: '/movietheaters/create', element: CreateMovieTheater, isAdmin: true},
+  {path: '/movietheaters/edit/:id', element: EditMovieTheater, isAdmin: true},
 
   //Movies
+  {path: '/movies/create', element: CreateMovie, isAdmin: true},
+  {path: '/movies/edit/:id', element: EditMovie, isAdmin: true},
   {path: '/movies/filter', element: FilterMovies},
-  {path: '/movies/create', element: CreateMovie},
-  {path: '/movies/edit/:id', element: EditMovie},
   {path: '/movie/:id', element: MovieDetails},
 
   //LandingPage
-  {path: '/', element: LandingPage},
+  {path: '/', element: LandingPage, exact: true},
 
   //Not Found
   {path: '*', element: NotFound}
