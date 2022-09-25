@@ -1,19 +1,21 @@
 import './App.css'
 import Menu from './Components/Menu/Menu'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import routes from './RouteConfig/routeConfig'
 import configureValidations from './Forms/FormValidation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Claim } from './Components/Auth/Auth.Model'
 import AuthenticationContext from './Components/Auth/AuthenticationContext'
+import { getClaims } from './Components/Auth/handleJWT'
+import configureInterceptor from './Utils/httpinterceptors'
 
 // Configure Yup validations
 configureValidations()
+configureInterceptor()
 
 function App() {
   //Import claims
   const [claims, setClaims] = useState<Claim[]>([
-    { name: 'role', value: 'admin' },
   ])
 
   //Check for admins
@@ -24,6 +26,10 @@ function App() {
       ) > -1
     )
   }
+
+  useEffect(() => {
+    setClaims(getClaims())
+  }, [])
 
   console.log(isAdmin())
 
@@ -37,12 +43,15 @@ function App() {
               <Route
                 key={route.path}
                 path={route.path}
-                element={ route.isAdmin && !isAdmin() ? <>You are not allowed to see this page</> : <route.element />  }
-              >
-              </Route>
-             
+                element={
+                  route.isAdmin && !isAdmin() ? (
+                    <>You are not allowed to see this page</>
+                  ) : (
+                    <route.element />
+                  )
+                }
+              ></Route>
             ))}
-           
           </Routes>
         </div>
         <footer className='bd-footer py-5 mt-5 bg-light'>

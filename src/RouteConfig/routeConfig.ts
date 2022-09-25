@@ -1,6 +1,8 @@
 import Actors from "../Components/Actors/Actors"
 import CreateActor from "../Components/Actors/CreateActor"
 import EditActor from "../Components/Actors/EditActor"
+import Login from "../Components/Auth/Login"
+import Register from "../Components/Auth/Register"
 import CreateGenre from "../Components/Genres/CreateGenre"
 import EditGenre from "../Components/Genres/EditGenre"
 import Genres from "../Components/Genres/Genres"
@@ -15,6 +17,11 @@ import MovieTheaters from "../Components/MovieTheaters/MovieTheaters"
 import NotFound from "../Components/NotFound/NotFound"
 
 const routes = [
+
+  //Register
+  {path: '/register', element: Register},
+  {path: '/login', element: Login},
+
   //Genres 
   {path: '/genres', element: Genres, exact: true, isAdmin: true},
   {path: '/genres/create', element: CreateGenre, isAdmin: true},

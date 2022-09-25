@@ -1,4 +1,5 @@
 import React from 'react'
+import { Error } from './Error'
 
 const DisplayErrors = (props: DisplayErrorsProps) => {
     const style = {

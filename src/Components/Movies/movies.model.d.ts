@@ -13,6 +13,8 @@ export interface movieDTO {
     movieTheaters: MovieTheaterDTO[]
     releaseDate: Date
     actors: ActorMovieDTO[]
+    userRating: number
+    averageRating: number
 
 }
 

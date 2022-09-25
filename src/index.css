@@ -24,3 +24,7 @@ form > a {
   margin-right: 1rem;
   
 }
+
+.checked {
+  color: orange
+}
