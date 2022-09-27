@@ -29,6 +29,7 @@ function App() {
 
   useEffect(() => {
     setClaims(getClaims())
+    console.log(claims)
   }, [])
 
   console.log(isAdmin())

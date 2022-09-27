@@ -18,7 +18,7 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, recordsPerPage]);
 
-    function loadData() {
+    const loadData = () => {
         axios.get(props.url, {
             params: { page, recordsPerPage }
         })
@@ -55,8 +55,10 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
     return (
         <>
             <h3>{props.title}</h3>
-            <Link className="btn btn-primary" 
-            to={props.createUrl}>Create {props.entityName}</Link>
+
+            {props.createUrl ?   <Link className="btn btn-primary" 
+            to={props.createUrl}>Create {props.entityName}</Link> : null}
+          
 
             <RecordsPerPageSelect onChange={amountOfRecords => {
                 setPage(1);
@@ -78,9 +80,9 @@ export default function IndexEntity<T>(props: indexEntityProps<T>) {
 
 interface indexEntityProps<T> {
     url: string;
-    createUrl: string;
+    createUrl?: string;
     title: string;
-    entityName: string;
+    entityName?: string;
     children(entities: T[],
         buttons: (editUrl: string, id: number) => ReactElement): ReactElement;
 }

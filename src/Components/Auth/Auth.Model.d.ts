@@ -12,3 +12,8 @@ export interface AuthenticationResponseDTO{
     token: string
     expiration: Date
 }
+
+export interface UserDTO {
+    id: string
+    email: string
+}

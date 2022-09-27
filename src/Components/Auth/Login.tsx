@@ -21,6 +21,7 @@ const Login = () => {
         `${urlAccounts}/login`,
         credentials
       )
+      console.log(response.data)
       saveToken(response.data)
       update(getClaims())
       navigate('/')

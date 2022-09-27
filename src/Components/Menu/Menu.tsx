@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import Button from '../../Utils/Button'
 import AuthenticationContext from '../Auth/AuthenticationContext'
 import Authorized from '../Auth/Authorized'
@@ -7,7 +7,7 @@ import { getClaims, logout } from '../Auth/handleJWT'
 
 const Menu = () => {
   const { update, claims } = useContext(AuthenticationContext)
-
+  const navigate = useNavigate()
   const getUserEmail = (): string => {
     return claims.filter((x) => x.name === 'email')[0]?.value
   }
@@ -55,6 +55,12 @@ const Menu = () => {
                       Create Movie
                     </NavLink>
                   </li>
+
+                  <li className='nav-item'>
+                    <NavLink to='/users' className='nav-link'>
+                      Users
+                    </NavLink>
+                  </li>
                 </>
               }
             />
@@ -68,6 +74,7 @@ const Menu = () => {
                     onClick={() => {
                       logout()
                       update([])
+                      navigate('/')
                     }}
                   >
                     Logout
